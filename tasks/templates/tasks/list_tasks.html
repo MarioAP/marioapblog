@@ -2,5 +2,10 @@
 
 {% block content  %}
 <h1>Hello To Do</h1>
+{% for task in tasks %}
+<div>{{ task.titlu }}</div>
+<div>{{ task.deskrisaun }}</div>
+<div>{{ task.data_kria }}</div>
+{% endfor %}
 {% endblock %}
 
