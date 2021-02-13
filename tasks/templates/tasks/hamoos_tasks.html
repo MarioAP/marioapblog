@@ -1,0 +1,7 @@
+<a href="{% url 'lista' %}">Fila</a>
+<br/>
+<form method="post" novalidate>
+    {% csrf_token %}
+    <p>Ita hakarak hamoos taks <b>"{{ task.titlu}}"</b>nee ka?</p>
+    <input type="submit" value="confirm">
+</form>

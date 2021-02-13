@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><a href="{% url 'lista' %}">Fila</a></p>
+<h1>Kria Tasks</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>{{ form.titlu }}</div><p>
+    <div>{{ form.deskrisaun }}</div><p>
+    <input type="submit" name="Kria">
+</form>
+{% endblock %}

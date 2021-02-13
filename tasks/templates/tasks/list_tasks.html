@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content  %}
-<h1>Hello To Do</h1>
+
+<h1>To Do</h1>
+<a href="{% url 'kria' %}">Kria Tasks</a>
+<p>
 {% for task in tasks %}
-<div>{{ task.titlu }}</div>
-<div>{{ task.deskrisaun }}</div>
-<div>{{ task.data_kria }}</div>
+    <a href="{% url 'detallu' task.id %}">
+        {% if task.kompleta == True %}
+        <li><strike>{{ task.titlu }}</strike></li>
+        {% else %}
+        <li>{{ task.titlu }}</li>
+        {% endif %}
+    </a>
 {% endfor %}
 {% endblock %}
-
