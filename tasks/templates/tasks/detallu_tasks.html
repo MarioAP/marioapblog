@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><a href="{% url 'lista' %}">Fila</a></p>
+<h1>Detallu Tasks</h1>
+<div>
+    {% if task.kompleta == True %}
+    <strike>{{ task.titlu }}</strike>
+    {% else %}
+    {{ task }}
+    {% endif %}
+</div>
+<div>{{ task.deskrisaun }}</div>
+<div>{{ task.data_kria }}</div>
+<a href="{% url 'hadia' task.id %}">Hadia</a>
+<br/>
+<a href="{% url 'hamoos' task.id %}">Hamoos</a>
+{% endblock %}
