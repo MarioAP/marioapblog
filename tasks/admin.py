@@ -2,4 +2,7 @@ from django.contrib import admin
 from .models import TaskModel
 
 
-admin.site.register(TaskModel)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ("titlu", "deskrisaun",)
+
+admin.site.register(TaskModel, TaskAdmin)

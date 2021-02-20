@@ -3,6 +3,15 @@
 {% block content  %}
 
 <h1>To Do</h1>
+
+<p> 
+<!-- Search formulariu -->
+<form action="{% url 'search_task' %}" method="get">
+  <input name="q" type="text" placeholder="Search...">
+</form>
+</p>
+
+<!-- Lista ba tasks sira -->
 <a href="{% url 'kria' %}">Kria Tasks</a>
 <p>
 {% for task in tasks %}
@@ -14,4 +23,46 @@
         {% endif %}
     </a>
 {% endfor %}
+<p>
+
+<!--Hatudu pajina-->
+{% if tasks.has_other_pages %}
+
+    <div class="pagination">
+    {% if tasks.has_previous %}
+      <a href="?page={{ tasks.previous_page_number }}">&laquo;</a>
+    {% else %}
+      <div class="disabled"><span>&laquo;</span></div>
+    {% endif %}
+    </div>
+
+    {% for i in tasks.paginator.page_range %}
+      <div class="pagination">
+      {% if tasks.number == i %}
+          <div class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></div>
+      {% else %}
+        <div><a href="?page={{ i }}">{{ i }}</a></div>
+      {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="pagination">
+    {% if tasks.has_next %}
+      <a href="?page={{ tasks.next_page_number }}">&raquo;</a>
+    {% else %}
+      <div class="disabled"><span>&raquo;</span></div>
+    {% endif %}
+    </div>
+{% endif %}
+
+<style>
+.pagination {
+  display: inline-block;
+}
+.pagination a {
+  color: black;
+}
+
+</style>
+
 {% endblock %}

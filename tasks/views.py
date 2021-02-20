@@ -1,12 +1,22 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from .models import TaskModel
 from .forms import TaskForm
+from django.views.generic import ListView
 
 
-#lista tasks sira hotu
+#lista tasks sira hotu no pajina
 def lista_tasks(request):
-    tasks = TaskModel.objects.all() 
-
+    tasks_list = TaskModel.objects.all() 
+    page = request.GET.get('page', 1)
+    paginator = Paginator(tasks_list, 3)
+    try:
+        tasks = paginator.page(page)
+    except PageNotAnInteger:
+        tasks = paginator.page(1)
+    except EmptyPage:
+        tasks = paginator.page(paginator.num_pages)
     context = {
             'tasks': tasks
         }
@@ -22,7 +32,7 @@ def detallu_tasks(request, pk):
     return render(request, 'tasks/detallu_tasks.html', context)
 
 
-#kria task
+# kria task
 def kria_tasks(request):
     form = TaskForm(request.POST or None)
     if request.method == 'POST':
@@ -49,6 +59,7 @@ def hadia_tasks(request, pk):
         }
     return render(request, 'tasks/hadia_tasks.html', context)
 
+
 #hamoos task
 def hamoos_tasks(request, pk):
     task = TaskModel.objects.get(pk=pk)
@@ -60,3 +71,31 @@ def hamoos_tasks(request, pk):
             'task': task
         }
     return render(request, 'tasks/hamoos_tasks.html', context)
+
+
+#search fbv
+def search_tasks(request):
+    query = request.GET.get('q')
+    queryset = (Q(titlu__icontains=query) | Q(deskrisaun__icontains=query))
+    tasks = TaskModel.objects.filter(queryset).distinct()
+    context = {
+           'tasks': tasks, 'query': query
+        }
+    return render(request, 'tasks/search_tasks.html', context)
+
+
+
+'''
+#Karik ita search uza CBV
+class SearchTaskView(ListView):
+    model = TaskModel
+    template_name = 'tasks/search_tasks.html'
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = TaskModel.objects.filter(
+                Q(titlu__icontains=query) | Q(deskrisaun__icontains=query)
+                )
+        return object_list
+'''
