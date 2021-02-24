@@ -8,7 +8,9 @@ from django.views.generic import ListView
 
 #lista tasks sira hotu no pajina
 def lista_tasks(request):
-    tasks_list = TaskModel.objects.all() 
+    tasks_list = TaskModel.objects.all()
+
+    #Kria pajina
     page = request.GET.get('page', 1)
     paginator = Paginator(tasks_list, 3)
     try:
@@ -17,8 +19,11 @@ def lista_tasks(request):
         tasks = paginator.page(1)
     except EmptyPage:
         tasks = paginator.page(paginator.num_pages)
+
     context = {
-            'tasks': tasks
+            'tasks': tasks,
+            'tasks_count': TaskModel.objects.all().count() #konta total task ne'ebe kria ona no hatudu iha template
+            #'tasks_count':TaskModel.objects.filter(titlu__contains='Ba').count() #konta kada titlu ne'ebe konteudu liafuan ba
         }
     return render(request, 'tasks/list_tasks.html', context)
 
