@@ -10,6 +10,8 @@
   <input name="q" type="text" placeholder="Search...">
 </form>
 </p>
+<!--Hatudu total tasks ne'ebe kria ona-->
+<h3>Total task ne'ebe kria ona hamutuk: {{ tasks_count }}</h3>
 
 <!-- Lista ba tasks sira -->
 <a href="{% url 'kria' %}">Kria Tasks</a>
@@ -24,6 +26,7 @@
     </a>
 {% endfor %}
 <p>
+</p>
 
 <!--Hatudu pajina-->
 {% if tasks.has_other_pages %}
