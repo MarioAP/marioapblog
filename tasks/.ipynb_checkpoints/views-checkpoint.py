@@ -12,13 +12,8 @@ def lista_tasks(request):
     tasks_list = TaskModel.objects.all()
 
     #Kria pajina
-    #page = request.GET.get('page', 1)
+    page = request.GET.get('page', 1)
     paginator = Paginator(tasks_list, 3)
-    if request.GET.get('page'):
-        # Grab the current page from query parameter
-        page = int(request.GET.get('page', 1))
-    else:
-        page = None
     try:
         tasks = paginator.page(page)
     except PageNotAnInteger:
@@ -96,7 +91,7 @@ def search_tasks(request):
     context = {
            'tasks': tasks, 'query': query
         }
-    return render(request, 'tasks/buka_tasks.html', context)
+    return render(request, 'tasks/search_tasks.html', context)
 
 
 
