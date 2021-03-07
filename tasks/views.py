@@ -9,7 +9,7 @@ from django.views.generic import ListView
 
 #lista tasks sira hotu no pajina
 def lista_tasks(request):
-    tasks_list = TaskModel.objects.all()
+    tasks_list = TaskModel.objects.all().order_by('id')
 
     #Kria pajina
     #page = request.GET.get('page', 1)
